@@ -1,0 +1,37 @@
+
+    V I D E O   4   L I N U X   C O N T R O L
+    =========================================
+
+
+This program is based on xawtv code.
+It allow get or set value of ALL controls supported by v4l devices.
+
+For correct output of dump (-d parameter) must v4l driver support flag V4L2_CTRL_FLAG_NEXT_CTRL.
+
+
+USAGE: 
+  v4lctrl [options]
+  options:
+    -h            print this text
+    -c file       use <file> as video4linux device
+    -d            dump device informations
+    -g cid        get value of control with id <cid>
+    -s cid        set control with id <cid> to value specified in parameter -v
+    -v value      value for set
+
+
+COMPILE:
+  
+    autoheader
+    automake
+    autoconf
+
+    ./configure
+    
+    make
+    
+    
+RUN:
+  
+  ./src/v4lctrl
+

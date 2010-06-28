@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#make distclean 
+
+## we need libv4lctrl first
+cd v4lctrl
+qmake-qt4
+make
+cd ..
+
+qmake-qt4
+make
