@@ -1,0 +1,7 @@
+#!/bin/bash
+
+make clean
+
+./configure --host=x86 CFLAGS="-m32" LDFLAGS="-shared -m32"
+
+make
