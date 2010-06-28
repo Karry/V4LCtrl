@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./libv4lwrapper /usr/bin/skype
+
