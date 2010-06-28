@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./libv4lwrapper "mplayer -vo x11 tv:// -tv driver=v4l2:device=/dev/video0 -fps 30  "
+

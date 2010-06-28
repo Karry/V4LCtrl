@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ $# -lt 1 ] ; then
+    echo "usage:    libv4lwrapper v4l_program"
+    echo
+    echo "examples: libv4lwrapper /usr/bin/skype"
+    echo "          libv4lwrapper /usr/bin/cheese"
+    exit 1
+fi
+
+export LIBV4L2_LOG_FILENAME=~/libv4l.log
+export LIBV4LCONTROL_CONTROLS=15
+
+export libv4l_prefix=/usr
+export LD_PRELOAD="$libv4l_prefix/lib/libv4l/v4l1compat.so:$libv4l_prefix/lib/libv4l/v4l2convert.so"
+export LD_LIBRARY_PATH="$libv4l_prefix/lib/libv4l/:$libv4l_prefix/lib/:"
+
+exec=$1
+
+echo $exec
+`echo $exec` &
+
+sleep 2
+v4lctrlgui &
