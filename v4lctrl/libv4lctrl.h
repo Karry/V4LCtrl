@@ -2,16 +2,9 @@
 #ifndef __V4LCTL_H
 #define __V4LCTL_H
 
-/* These headers are not needed by us, but by linux/videodev2.h,
-   which is broken on some systems and doesn't include them itself :( */
-#include <sys/time.h>
-#include <linux/types.h>
-#include <linux/ioctl.h>
-/* end broken header workaround includes */
-#include <linux/videodev.h>
-#include <linux/videodev2.h>
-
-
+#include "linux/videodev2.h"
+#include "libv4l1-videodev.h"
+#include "libv4l2.h"
 
 #define SHM_SEMAPTHORES_ID      0
 #define SHM_DATA_ID             1
@@ -33,10 +26,10 @@ extern "C" {
 #endif
 	
 struct v4lcontrol_shared{
-	__u64 lib_pid;
-	__u64 ioctl_request;
-	__u64 result;
-	__u8 arg[256];	
+	uint64_t lib_pid;
+	uint64_t ioctl_request;
+	uint64_t result;
+	uint8_t arg[256];	
 };
 
 enum access_method {SHM, DIRECT};

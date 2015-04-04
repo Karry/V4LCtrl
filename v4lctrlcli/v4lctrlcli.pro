@@ -1,9 +1,7 @@
 SOURCES += struct-dump.c \
-struct-v4l.c \
 struct-v4l2.c \
 v4lctrlcli.c
 HEADERS += struct-dump.h \
-struct-v4l.h \
 struct-v4l2.h \
 v4lctrlcli.h
 TEMPLATE = app

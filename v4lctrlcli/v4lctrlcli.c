@@ -39,14 +39,14 @@ This program is based on xawtv code.
 #include "v4lctrlcli.h"
 
 #include "struct-dump.h"
-#include "struct-v4l.h"
+//#include "struct-v4l.h"
 #include "struct-v4l2.h"
 
 
 
 /* --------------------------------------------------------------------- */
 /* v4l(1)                                                                */
-
+/*
 static int dump_v4l(struct v4ldevice *vd, int tab)
 {
 	struct video_capability  capability;
@@ -131,6 +131,7 @@ static int dump_v4l(struct v4ldevice *vd, int tab)
 
 	return 0;
 }
+ * */
 
 /* --------------------------------------------------------------------- */
 /* v4l2                                                                  */
@@ -389,7 +390,8 @@ int main(int argc, char *argv[])
 	
 	if (dump && v4l_device){
 		printf("\n### video4linux device info [%s] ###\n",device);
-		dump_v4l(vd,tab);
+		printf("\n### v4l1 API is not supported anymore!\n");
+		//dump_v4l(vd,tab);
 	}
 	if (dump && v4l2_device){
 		printf("\n### v4l2 device info [%s] ###\n",device);
