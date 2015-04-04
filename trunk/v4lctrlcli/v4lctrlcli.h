@@ -18,12 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/* These headers are not needed by us, but by linux/videodev2.h,
-   which is broken on some systems and doesn't include them itself :( */
-#include <sys/time.h>
-#include <linux/types.h>
-#include <linux/ioctl.h>
-/* end broken header workaround includes */
-#include <linux/videodev.h>
-#include <linux/videodev2.h>
+#include "linux/videodev2.h"
+#include "libv4l1-videodev.h"
+#include "libv4l2.h"
 
