@@ -1,9 +1,0 @@
-<?xml version=\s'1.0'?>
-<envvar value="1" name="QT_FATAL_WARNINGS" />
-<group pattern="*" name="Others" />
-<namespaceAliases>std=_GLIBCXX_STD;__gnu_cxx=std</namespaceAliases>
-<type ext="ts" />
-
-[Project]
-Manager=KDevCustomMakeManager
-Name=trunk

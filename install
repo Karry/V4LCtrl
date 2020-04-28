@@ -1,6 +1,0 @@
-#!/bin/bash
-
-## run with root privileges (vith sudo)
-make install
-ldconfig
-
