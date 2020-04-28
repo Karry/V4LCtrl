@@ -72,7 +72,8 @@ private:
 	QAction *aboutAct;
 	QAction *aboutQtAct;
 	QTimer *timer;
-			
+
+	// return 0 on success
 	int openDevice();
 	map<unsigned long int, Wrapper*> controlWrappers;
 	

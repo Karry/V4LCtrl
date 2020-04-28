@@ -61,15 +61,16 @@ int try_ged_shm_id(struct v4ldevice *vd, char *device){
 		return id;
 	}
 	vd->shm_data_id = id;
-	
-	if ((data = (struct v4lcontrol_shared *)shmat(vd->shm_data_id, NULL, 0)) == (char *) -1) {
+
+  data = (struct v4lcontrol_shared *)shmat(vd->shm_data_id, NULL, 0);
+	if ((void *)data == (void*) -1) {
 		perror("shmat");
 		vd->shm_semaphores_id = -1;
 		vd->shm_data_id = -1;
 		return -1;
 	}
 	
-	sprintf(buf1, "/proc/%d/cmdline", data->lib_pid);
+	sprintf(buf1, "/proc/%ld/cmdline", data->lib_pid);
 	fr = fopen(buf1, "rb");
 	if (!fr) {
 		vd->shm_semaphores_id = -1;
@@ -80,7 +81,7 @@ int try_ged_shm_id(struct v4ldevice *vd, char *device){
 	buf1[ sizeof(buf1) -1 ] = 0;
 	fclose(fr);
 	
-	printf("%s is controled by application with pid %d (\"%s\")\n",device, data->lib_pid,buf1);
+	printf("%s is controled by application with pid %ld (\"%s\")\n",device, data->lib_pid,buf1);
 	if ( shmdt( data ) < 0 ) {
 		perror("shmdt");
 		vd->shm_semaphores_id = -1;
@@ -133,18 +134,19 @@ int doioctl(struct v4ldevice *vd,unsigned long int ctl,void *param, int size){
 		return -1;
 	
   // PUSH DATA
-	if ((data = (struct v4lcontrol_shared *)shmat(vd->shm_data_id, NULL, 0)) == (char *) -1) {
+  data = (struct v4lcontrol_shared *)shmat(vd->shm_data_id, NULL, 0);
+	if ((void*)data == (void*) -1) {
 		perror("shmat error");
 		return -1;
 	}
 	
 	// try if host application still running
-	sprintf(buf1, "/proc/%d/cmdline", data->lib_pid);
+	sprintf(buf1, "/proc/%ld/cmdline", data->lib_pid);
 	fr = fopen(buf1, "rb");
 	if (!fr) {
 		vd->shm_semaphores_id = -1;
 		vd->shm_data_id = -1;
-		fprintf(stderr,"Application with PID %d isn't running\n",data->lib_pid);
+		fprintf(stderr,"Application with PID %ld isn't running\n",data->lib_pid);
 		return -1;
 	}
 	fread(buf1, 1, sizeof(buf1), fr);
@@ -193,10 +195,9 @@ int getCotrol(struct v4ldevice *vd, unsigned long int cid, unsigned long int *va
 /* setCotrol                                                             */
 
 int setCotrol(struct v4ldevice *vd, unsigned long int cid, unsigned long int value){
-	int result;
 	struct v4l2_control ctrl = {
-		.id = cid,
-	.value = value
+    .id = cid,
+	  .value = value
 	};
 	return doioctl(vd,VIDIOC_S_CTRL,&ctrl,sizeof(ctrl));
 }

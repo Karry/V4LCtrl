@@ -8,6 +8,11 @@ find_package(Qt5Core 5.6)
 find_package(Qt5Gui 5.6)
 find_package(Qt5Widgets 5.6)
 
+option(BUILD_SHARED_LIBS "Shared libraries " ON)  # SHARED lib default
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")
+set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")
+
 add_subdirectory(v4lctrl)
 add_subdirectory(v4lctrlcli)
 

@@ -26,7 +26,7 @@ using namespace std;
 void Wrapper::changeValue(unsigned long int){}
 
 
-SliderWrapper::SliderWrapper(unsigned long int id, QSlider *source, QLabel *status):id(id),source(source),status(status){
+SliderWrapper::SliderWrapper(unsigned long int id, QSlider *source, QLabel *status):id(id),status(status),source(source){
 	connect(source, SIGNAL(valueChanged(int)), this, SLOT(valueChangedSlot(int)));
 }
 

@@ -19,12 +19,16 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#ifdef V4LCTRL_EXPORT
 #if __GNUC__ >= 4
 #define V4LCTRL_PUBLIC __attribute__ ((visibility("default")))
 #else
 #define V4LCTRL_PUBLIC
 #endif
-	
+#else
+#define V4LCTRL_PUBLIC
+#endif
+
 struct v4lcontrol_shared{
 	uint64_t lib_pid;
 	uint64_t ioctl_request;

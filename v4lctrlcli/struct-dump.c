@@ -13,19 +13,19 @@ struct struct_desc desc_int[] = {{
 	.type   = SINT32,
 	.name   = "int",
 },{
-	/* end of list */
+  0/* end of list */
 }};
 
 struct struct_desc desc_long[] = {{
 	.type   = SINT32,
 	.name   = "long",
 },{
-	/* end of list */
+  0/* end of list */
 }};
 
 struct struct_desc desc_timeval[] = {{
 	/* FIXME */
-	/* end of list */
+ 0/* end of list */
 }};
 
 /* ---------------------------------------------------------------------- */

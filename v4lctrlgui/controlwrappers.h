@@ -27,7 +27,7 @@
 #include <QCheckBox>
 extern "C" {
 #include <linux/types.h>
-};
+}
 
 using namespace std;
 

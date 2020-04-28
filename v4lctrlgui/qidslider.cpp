@@ -20,17 +20,18 @@
 
 
 #include "qidslider.h"
-#include <iostream>
+
+#include <QDebug>
 
 using namespace std;
 
 QIdSlider::QIdSlider(QWidget *parent, int id):QSlider(parent),id(id){
 	connect(this, SIGNAL(valueChanged(int)), this, SLOT(valueChangedSlot(int)));
-	cout << "init " << id << endl;
+	qDebug() << "init" << id;
 }
 
 void QIdSlider::valueChangedSlot(int i){
-	cout << "valueChanged" << endl;
+	qDebug() << "valueChanged:" << i;
 }
 
 int QIdSlider::getId(){

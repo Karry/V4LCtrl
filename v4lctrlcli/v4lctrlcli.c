@@ -400,7 +400,7 @@ int main(int argc, char *argv[])
 	
 	if (g_cid){
 		int result = getCotrol(vd, g_cid,&value);
-		printf("\nget control id %d : %d ",g_cid,value);
+		printf("\nget control id %ld : %ld ",g_cid,value);
 		if (result)
 			printf("; returned code: %d\n", result);
 		else
@@ -408,7 +408,7 @@ int main(int argc, char *argv[])
 	}
 	if (s_cid){
 		int result = setCotrol(vd, s_cid, value);
-		printf("\nset control id %d to %d ",s_cid,value);
+		printf("\nset control id %ld to %ld ",s_cid,value);
 		if (result)
 			printf("; returned code: %d\n", result);
 		else

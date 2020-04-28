@@ -13,3 +13,6 @@ add_executable(v4lctrlcli ${CLI_HEADERS} ${CLI_SOURCES})
 
 target_link_libraries(v4lctrlcli
     v4lctrl)
+
+set_target_properties(v4lctrlcli PROPERTIES
+    C_STANDARD 11)

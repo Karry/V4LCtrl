@@ -135,8 +135,7 @@ int v4lCtrlGUI::openDevice(){
 	struct v4l2_fmtdesc     fmtdesc;
 	struct v4l2_queryctrl   qctrl;
 	unsigned int i;
-	int v4l2_device=0;
-	int v4l_device=0;
+	bool v4l2_device=false;
 	char dummy[256];
 	
 	// close previous device
@@ -150,18 +149,19 @@ int v4lCtrlGUI::openDevice(){
 	delete tmp;
 	
 	if (result < 0){
-		cout << "Unable to open device" << endl;
+		qWarning() << "Unable to open device";
 		ErrorDialog *dialog = new ErrorDialog(QString("Unable to open device"));
+		dialog->show();
 		return result;
 	}
 	
 	// test device if it is v4l2 device
 	if (-1 != doioctl(vd,VIDIOC_QUERYCAP,dummy,sizeof(dummy))) {
-		v4l2_device = 1;
+		v4l2_device = true;
 	}
 
 	if (-1 != doioctl(vd,VIDIOCGCAP,dummy,sizeof(dummy))) {
-		v4l_device = 1;
+		qWarning() << "Only v4l2 devices are supported!";
 	}
 
 	if (!v4l2_device) {
@@ -171,6 +171,7 @@ int v4lCtrlGUI::openDevice(){
 		ErrorDialog *dialog = new ErrorDialog(QString((char*)&dummy));
 		delete tmp;
 		closeDevice();
+		dialog->show();
 		return -1;
 	}
 		
@@ -312,7 +313,7 @@ int v4lCtrlGUI::openDevice(){
 	
 
 	//ui->scrollAreaWidgetContents
-	
+	return 0;
 }
 
 
