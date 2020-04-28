@@ -22,14 +22,17 @@
 #ifndef V4LCTRLGUI_H
 #define V4LCTRLGUI_H
 
-#include "../v4lctrl/libv4lctrl.h"
 #include "controlwrappers.h"
+#include <ui_mainwindow.h>
 
-#include "ui_mainwindow.h"
+#include <libv4lctrl.h>
 
-#include <map>
+#include <QMainWindow>
+#include <QObject>
 #include <QMainWindow>
 #include <QCloseEvent>
+
+#include <map>
 
 using namespace std;
 

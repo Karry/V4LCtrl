@@ -22,7 +22,12 @@
 #define IDSIGNALMAPPER_H
 
 #include <QtGui>
+#include <QSlider>
+#include <QLabel>
+#include <QCheckBox>
+extern "C" {
 #include <linux/types.h>
+};
 
 using namespace std;
 

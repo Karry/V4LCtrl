@@ -21,8 +21,10 @@
 #ifndef SELECTDEVICEDIALOG_H
 #define SELECTDEVICEDIALOG_H
 
+#include <ui_selectdevice.h>
 
-#include "ui_selectdevice.h"
+#include <QDialog>
+#include <QObject>
 
 using namespace std;
 

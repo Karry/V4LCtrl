@@ -22,6 +22,7 @@
 #define QIDSLIDER_H
 
 #include <QtGui>
+#include <QSlider>
 
 class QIdSlider:public QSlider{
 	public:

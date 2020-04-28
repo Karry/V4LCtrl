@@ -22,23 +22,23 @@
 #include "libv4l1-videodev.h"
 #include "libv4l2.h"
 
-//#include "qidslider.h"
+#include "v4lctrlgui.h"
 #include "cfunct.h"
 #include "controlwrappers.h"
 #include "selectdevicedialog.h"
 #include "errordialog.h"
 
-#include <iostream>
-#include <string.h>
-#include <string>
-
 #include <QtGui>
-#include "v4lctrlgui.h"
+#include <QMessageBox>
 
 #include <QTextEdit>
 #include <QTextStream>
 #include <QCloseEvent>
 #include <QFileDialog>
+
+#include <iostream>
+#include <cstring>
+#include <string>
 
 using namespace std;
 

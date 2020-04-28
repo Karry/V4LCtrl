@@ -21,8 +21,10 @@
 #ifndef ERROREDIALOG_H
 #define ERROREDIALOG_H
 
+#include <ui_errordialog.h>
 
-#include "ui_errordialog.h"
+#include <QDialog>
+#include <QObject>
 
 using namespace std;
 
