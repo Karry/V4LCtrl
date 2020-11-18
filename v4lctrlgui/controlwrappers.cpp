@@ -58,3 +58,31 @@ void CheckBoxWrapper::valueChangedSlot(int val){
 void CheckBoxWrapper::changeValue(unsigned long int val){
 	source->setCheckState( (Qt::CheckState)(val? 2:0) );
 }
+
+ComboBoxWrapper::ComboBoxWrapper(unsigned long int id, QComboBox *source):id(id), source(source){
+ 	connect(source, SIGNAL(currentIndexChanged(int)), this, SLOT(valueChangedSlot(int)));
+}
+
+void ComboBoxWrapper::changeValue(unsigned long int newMenuIndex){
+	for (int index = 0; index < source->count(); index++) {
+		QVariant var = source->itemData(index);
+		if (var.isValid()){
+			bool ok=false;
+			qulonglong menuIndex = var.toULongLong(&ok);
+			if (ok && menuIndex==newMenuIndex && index!=source->currentIndex()){
+				source->setCurrentIndex(index);
+			}
+		}
+	}
+}
+
+void ComboBoxWrapper::valueChangedSlot(int){
+	QVariant var = source->currentData(Qt::UserRole);
+	if (var.isValid()){
+		bool ok=false;
+		qulonglong menuIndex = var.toULongLong(&ok);
+		if (ok){
+			emit valueChangedId(id, menuIndex);
+		}
+	}
+}

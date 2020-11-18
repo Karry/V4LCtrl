@@ -35,6 +35,8 @@ This program is based on xawtv code.
 #include <sys/sem.h>
 #include <sys/shm.h>
 
+#include <string.h> // std::strerror_r()
+
 #include "libv4lctrl.h"
 
 /* --------------------------------------------------------------------- */
@@ -112,6 +114,14 @@ int binary_semaphore_up(int semid, int counterId){
 	return semop (semid, &operation, 1);
 }
 
+void print_errno(int errno_val) {
+	const int buff_len = 256;
+	char buffer[buff_len];
+	if (strerror_r(errno_val, buffer, buff_len) == 0) {
+		fprintf(stderr, "%s\n", buffer);
+	}
+}
+
 int doioctl(struct v4ldevice *vd,unsigned long int ctl,void *param, int size){
 	//printf("ioctl 0x%x param length %d\n",ctl, size);
 	struct v4lcontrol_shared *data; 
@@ -121,8 +131,7 @@ int doioctl(struct v4ldevice *vd,unsigned long int ctl,void *param, int size){
     
 
 	if (vd->access == DIRECT){
-		int result = ioctl(vd->fd,ctl,param);
-		//printf("%d\n", result);
+		result = ioctl(vd->fd,ctl,param);
 		return result;
 	}
 	

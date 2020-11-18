@@ -25,6 +25,7 @@
 #include <QSlider>
 #include <QLabel>
 #include <QCheckBox>
+#include <QComboBox>
 extern "C" {
 #include <linux/types.h>
 }
@@ -75,5 +76,22 @@ class CheckBoxWrapper:public Wrapper{
 		QCheckBox *source;
 };
 
+class ComboBoxWrapper:public Wrapper{
+	Q_OBJECT
+
+public:
+	ComboBoxWrapper(unsigned long int, QComboBox*);
+	virtual void changeValue(unsigned long int);
+
+public slots:
+	void valueChangedSlot(int);
+
+signals:
+	void valueChangedId(unsigned long int id, unsigned long int newVal);
+
+private:
+	unsigned long int id;
+	QComboBox *source;
+};
 
 #endif

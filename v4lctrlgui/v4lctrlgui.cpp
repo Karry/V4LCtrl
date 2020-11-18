@@ -35,6 +35,7 @@
 #include <QTextStream>
 #include <QCloseEvent>
 #include <QFileDialog>
+#include <QComboBox>
 
 #include <iostream>
 #include <cstring>
@@ -254,15 +255,17 @@ int v4lCtrlGUI::openDevice(){
 		if (i>0){
 			printf("\n    VIDIOC_QUERYCTRL (%d | V4L2_CTRL_FLAG_NEXT_CTRL)\n",qctrl.id);
 			qctrl.id |= V4L2_CTRL_FLAG_NEXT_CTRL;
-		}else
-			printf("\n    VIDIOC_QUERYCTRL (%d)\n",qctrl.id);
+		} else {
+			printf("\n    VIDIOC_QUERYCTRL (%d)\n", qctrl.id);
+		}
 				
 		if (doioctl(vd,VIDIOC_QUERYCTRL,&qctrl,sizeof(qctrl)) < 0){
 			printf("        break\n");
 			break;
 		}
-		if (qctrl.flags & V4L2_CTRL_FLAG_DISABLED)
+		if (qctrl.flags & V4L2_CTRL_FLAG_DISABLED) {
 			continue;
+		}
 	
 		QLabel *description = new QLabel(ui->scrollAreaWidgetContents);
 		description->setObjectName("control_description");
@@ -273,7 +276,7 @@ int v4lCtrlGUI::openDevice(){
 		description->setText( dummy );
 		cout << (char*)&dummy << endl;
 		
-		if (qctrl.type == V4L2_CTRL_TYPE_BOOLEAN){
+		if (qctrl.type == V4L2_CTRL_TYPE_BOOLEAN) {
 			QCheckBox *checkBox = new QCheckBox(ui->scrollAreaWidgetContents);
 			checkBox->setObjectName( "checkBox" );
 			ui->controlsGridLayout->addWidget(checkBox, i, 1, 1, 1);
@@ -283,7 +286,7 @@ int v4lCtrlGUI::openDevice(){
 			
 			controlWrappers.insert( pair<unsigned long int, Wrapper*>(qctrl.id,wrapper) );
 
-		}else if (qctrl.type == V4L2_CTRL_TYPE_INTEGER){
+		} else if (qctrl.type == V4L2_CTRL_TYPE_INTEGER) {
 			QLabel *curVal = new QLabel(ui->scrollAreaWidgetContents);
 			curVal->setObjectName("control_curVal");
 			ui->controlsGridLayout->addWidget(curVal, i, 2, 1, 1);
@@ -304,8 +307,46 @@ int v4lCtrlGUI::openDevice(){
 			connect(wrapper, SIGNAL(valueChangedId(unsigned long int,unsigned long int)), this, SLOT(controlChangedSlot(unsigned long int, unsigned long int)));
 
 			controlWrappers.insert( pair<unsigned long int, Wrapper*>(qctrl.id,wrapper) );
-			
-		}else{
+
+		} else if (qctrl.type == V4L2_CTRL_TYPE_MENU) {
+
+			QComboBox *comboBox = new QComboBox(ui->scrollAreaWidgetContents);
+
+			if (qctrl.minimum < 0 || qctrl.maximum  < 0 || qctrl.step < 0){
+				continue;
+			}
+			struct v4l2_querymenu querymenu;
+			memset(&querymenu,0,sizeof(querymenu));
+			querymenu.id = qctrl.id;
+
+			printf("\tmenu entries:\n");
+
+			for (querymenu.index = (uint32_t)qctrl.minimum;
+					 querymenu.index <= (uint32_t)qctrl.maximum;
+					 querymenu.index += (uint32_t)qctrl.step) {
+
+				if (doioctl(vd, VIDIOC_QUERYMENU, &querymenu, sizeof(querymenu)) < 0) {
+					int errno_val = errno;
+					if (errno_val == EINVAL) {
+						continue; // just ignore and try to get next menu entry
+					} else {
+						print_errno(errno_val);
+						break;
+					}
+				}
+
+				comboBox->addItem(QString::fromUtf8(reinterpret_cast<char*>(querymenu.name)), querymenu.index);
+			}
+
+			ui->controlsGridLayout->addWidget(comboBox, i, 1, 1, 1);
+
+			ComboBoxWrapper *wrapper = new ComboBoxWrapper(qctrl.id, comboBox);
+			connect(wrapper, SIGNAL(valueChangedId(unsigned long int,unsigned long int)),
+					 this, SLOT(controlChangedSlot(unsigned long int, unsigned long int)));
+
+			controlWrappers.insert( pair<unsigned long int, Wrapper*>(qctrl.id,wrapper) );
+
+		} else {
 			cout << "Unsupported type of control. Try v4lctrlcli." << endl;
 		}
 	}

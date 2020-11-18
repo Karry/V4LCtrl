@@ -49,6 +49,8 @@ int try_ged_shm_id(struct v4ldevice *vd, char *device);
 int binary_semaphore_down (int semid, int counterId);
 int binary_semaphore_up(int semid, int counterId);
 
+void print_errno(int errno_val);
+
 V4LCTRL_PUBLIC int doioctl(struct v4ldevice *vd,unsigned long int ctl,void *param, int size);
 V4LCTRL_PUBLIC int v4ldevice_close(struct v4ldevice *vd);
 V4LCTRL_PUBLIC int v4ldevice_open(struct v4ldevice *vd, char *devf, int force_direct);

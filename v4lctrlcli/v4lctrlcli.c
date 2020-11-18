@@ -201,14 +201,48 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 		}
 
 		if (doioctl(vd,VIDIOC_QUERYCTRL,&qctrl,sizeof(qctrl)) < 0){
-			printf("        break\n");
-			break;
+			int errno_val = errno;
+			if (errno_val == EINVAL) {
+				printf("        break\n");
+				break; // last conrol
+			} else {
+				print_errno(errno_val);
+				break;
+			}
 		}
 		if (qctrl.flags & V4L2_CTRL_FLAG_DISABLED) {
 			continue;
 		}
 
 		print_struct(stdout,desc_v4l2_queryctrl,&qctrl,"",tab);
+
+		if (qctrl.type == V4L2_CTRL_TYPE_MENU) {
+			if (qctrl.minimum < 0 || qctrl.maximum  < 0 || qctrl.step < 0){
+				continue;
+			}
+			struct v4l2_querymenu querymenu;
+			memset(&querymenu,0,sizeof(querymenu));
+			querymenu.id = qctrl.id;
+
+			printf("\tmenu entries:\n");
+
+			for (querymenu.index = (uint32_t)qctrl.minimum;
+					 querymenu.index <= (uint32_t)qctrl.maximum;
+					 querymenu.index += (uint32_t)qctrl.step) {
+
+				if (doioctl(vd, VIDIOC_QUERYMENU, &querymenu, sizeof(querymenu)) < 0) {
+					int errno_val = errno;
+					if (errno_val == EINVAL) {
+						continue; // just ignore and try to get next menu entry
+					} else {
+						print_errno(errno_val);
+						break;
+					}
+				}
+
+				print_struct(stdout,desc_v4l2_querymenu,&querymenu,"\t",tab+1);
+			}
+		}
 	}
 	return 0;
 }
