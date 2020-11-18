@@ -14,7 +14,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-This program is based on xawtv code. 
+This program is based on xawtv code.
 */
 
 #include <stdio.h>
@@ -58,8 +58,9 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 
 	printf("general info\n");
 	memset(&capability,0,sizeof(capability));
-	if (-1 == doioctl(vd,VIDIOC_QUERYCAP,&capability,sizeof(capability)))
+	if (doioctl(vd,VIDIOC_QUERYCAP,&capability,sizeof(capability)) == -1) {
 		return -1;
+	}
 	printf("    VIDIOC_QUERYCAP\n");
 	print_struct(stdout,desc_v4l2_capability,&capability,"",tab);
 	printf("\n");
@@ -68,8 +69,9 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 	for (i = 0;; i++) {
 		memset(&standard,0,sizeof(standard));
 		standard.index = i;
-		if (-1 == doioctl(vd,VIDIOC_ENUMSTD,&standard,sizeof(standard)))
+		if (doioctl(vd,VIDIOC_ENUMSTD,&standard,sizeof(standard)) == -1) {
 			break;
+		}
 		printf("    VIDIOC_ENUMSTD(%d)\n",i);
 		print_struct(stdout,desc_v4l2_standard,&standard,"",tab);
 	}
@@ -79,8 +81,9 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 	for (i = 0;; i++) {
 		memset(&input,0,sizeof(input));
 		input.index = i;
-		if (-1 == doioctl(vd,VIDIOC_ENUMINPUT,&input,sizeof(input)))
+		if (doioctl(vd,VIDIOC_ENUMINPUT,&input,sizeof(input)) == -1) {
 			break;
+		}
 		printf("    VIDIOC_ENUMINPUT(%d)\n",i);
 		print_struct(stdout,desc_v4l2_input,&input,"",tab);
 	}
@@ -91,8 +94,9 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 		for (i = 0;; i++) {
 			memset(&tuner,0,sizeof(tuner));
 			tuner.index = i;
-			if (-1 == doioctl(vd,VIDIOC_G_TUNER,&tuner,sizeof(tuner)))
+			if (doioctl(vd,VIDIOC_G_TUNER,&tuner,sizeof(tuner)) == -1) {
 				break;
+			}
 			printf("    VIDIOC_G_TUNER(%d)\n",i);
 			print_struct(stdout,desc_v4l2_tuner,&tuner,"",tab);
 		}
@@ -105,8 +109,9 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 			memset(&fmtdesc,0,sizeof(fmtdesc));
 			fmtdesc.index = i;
 			fmtdesc.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-			if (-1 == doioctl(vd,VIDIOC_ENUM_FMT,&fmtdesc,sizeof(fmtdesc)))
+			if (-1 == doioctl(vd,VIDIOC_ENUM_FMT,&fmtdesc,sizeof(fmtdesc))) {
 				break;
+			}
 			printf("    VIDIOC_ENUM_FMT(%d,VIDEO_CAPTURE)\n",i);
 			print_struct(stdout,desc_v4l2_fmtdesc,&fmtdesc,"",tab);
 		}
@@ -127,21 +132,22 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 			memset(&fmtdesc,0,sizeof(fmtdesc));
 			fmtdesc.index = i;
 			fmtdesc.type  = V4L2_BUF_TYPE_VIDEO_OVERLAY;
-			if (-1 == doioctl(vd,VIDIOC_ENUM_FMT,&fmtdesc,sizeof(fmtdesc)))
+			if (doioctl(vd,VIDIOC_ENUM_FMT,&fmtdesc,sizeof(fmtdesc)) == -1) {
 				break;
+			}
 			printf("    VIDIOC_ENUM_FMT(%d,VIDEO_OVERLAY)\n",i);
 			print_struct(stdout,desc_v4l2_fmtdesc,&fmtdesc,"",tab);
 		}
 		memset(&format,0,sizeof(format));
 		format.type  = V4L2_BUF_TYPE_VIDEO_OVERLAY;
-		if (-1 == doioctl(vd,VIDIOC_G_FMT,&format,sizeof(format))) {
+		if (doioctl(vd,VIDIOC_G_FMT,&format,sizeof(format)) == -1) {
 			perror("VIDIOC_G_FMT(VIDEO_OVERLAY)");
 		} else {
 			printf("    VIDIOC_G_FMT(VIDEO_OVERLAY)\n");
 			print_struct(stdout,desc_v4l2_format,&format,"",tab);
 		}
 		memset(&fbuf,0,sizeof(fbuf));
-		if (-1 == doioctl(vd,VIDIOC_G_FBUF,&fbuf,sizeof(fbuf))) {
+		if (doioctl(vd,VIDIOC_G_FBUF,&fbuf,sizeof(fbuf)) == -1) {
 			perror("VIDIOC_G_FBUF");
 		} else {
 			printf("    VIDIOC_G_FBUF\n");
@@ -156,14 +162,15 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 			memset(&fmtdesc,0,sizeof(fmtdesc));
 			fmtdesc.index = i;
 			fmtdesc.type  = V4L2_BUF_TYPE_VBI_CAPTURE;
-			if (-1 == doioctl(vd,VIDIOC_ENUM_FMT,&fmtdesc,sizeof(fmtdesc)))
+			if (doioctl(vd,VIDIOC_ENUM_FMT,&fmtdesc,sizeof(fmtdesc)) == -1) {
 				break;
+			}
 			printf("    VIDIOC_ENUM_FMT(%d,VBI_CAPTURE)\n",i);
 			print_struct(stdout,desc_v4l2_fmtdesc,&fmtdesc,"",tab);
 		}
 		memset(&format,0,sizeof(format));
 		format.type  = V4L2_BUF_TYPE_VBI_CAPTURE;
-		if (-1 == doioctl(vd,VIDIOC_G_FMT,&format,sizeof(format))) {
+		if (doioctl(vd,VIDIOC_G_FMT,&format,sizeof(format)) == -1) {
 			perror("VIDIOC_G_FMT(VBI_CAPTURE)");
 		} else {
 			printf("    VIDIOC_G_FMT(VBI_CAPTURE)\n");
@@ -174,7 +181,7 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 
 	printf("controls\n");
 	memset(&qctrl,0,sizeof(qctrl));
-	
+
 	/* find first CID */
 	i = V4L2_CID_BASE;
 	for (qctrl.id = V4L2_CID_BASE; qctrl.id < V4L2_CID_LASTP1;qctrl.id++){
@@ -184,22 +191,23 @@ static int dump_v4l2(struct v4ldevice *vd, int tab)
 		}
 	}
 	qctrl.id = i;
-	
+
 	for (i = 0; i < V4L2_CTRL_ID_MASK; i++) {
 		if (i>0){
 			printf("\n    VIDIOC_QUERYCTRL (%d | V4L2_CTRL_FLAG_NEXT_CTRL)\n",qctrl.id);
 			qctrl.id |= V4L2_CTRL_FLAG_NEXT_CTRL;
-		}else
-			printf("\n    VIDIOC_QUERYCTRL (%d)\n",qctrl.id);
-			
+		} else {
+			printf("\n    VIDIOC_QUERYCTRL (%d)\n", qctrl.id);
+		}
+
 		if (doioctl(vd,VIDIOC_QUERYCTRL,&qctrl,sizeof(qctrl)) < 0){
 			printf("        break\n");
 			break;
 		}
-		if (qctrl.flags & V4L2_CTRL_FLAG_DISABLED)
+		if (qctrl.flags & V4L2_CTRL_FLAG_DISABLED) {
 			continue;
-		
-		
+		}
+
 		print_struct(stdout,desc_v4l2_queryctrl,&qctrl,"",tab);
 	}
 	return 0;
@@ -239,18 +247,18 @@ int main(int argc, char *argv[])
 	unsigned long int g_cid = 0;
 	unsigned long int s_cid = 0;
 	unsigned long int value = 0;
-	
-	
+
+
 	if (argc < 2){
 		print_help();
 		exit(0);
 	}
-	
+
 	for (;;) {
 		c = getopt(argc, argv, "hrc:dg:s:v:");
 		if (c == -1)
 			break;
-		
+
 		switch (c) {
 			case 'd':
 				dump = 1;
@@ -269,7 +277,7 @@ int main(int argc, char *argv[])
 				break;
 			case 'r':
 				direct_access = 1;
-				break;				
+				break;
 			case 'h':
 			default:
 				print_help();
@@ -293,8 +301,8 @@ int main(int argc, char *argv[])
 		fprintf(stderr,"%s: not an video4linux device\n",device);
 		exit(1);
 	}
-	
-	
+
+
 	if (dump && v4l_device){
 		printf("\n### video4linux device info [%s] ###\n",device);
 		printf("\n### v4l1 API is not supported anymore!\n");
@@ -304,14 +312,14 @@ int main(int argc, char *argv[])
 		printf("\n### v4l2 device info [%s] ###\n",device);
 		dump_v4l2(vd,tab);
 	}
-	
+
 	if (g_cid){
 		int result = getCotrol(vd, g_cid,&value);
 		printf("\nget control id %ld : %ld ",g_cid,value);
 		if (result)
 			printf("; returned code: %d\n", result);
 		else
-			printf("\n");		
+			printf("\n");
 	}
 	if (s_cid){
 		int result = setCotrol(vd, s_cid, value);
@@ -321,8 +329,8 @@ int main(int argc, char *argv[])
 		else
 			printf("\n");
 	}
-	
+
 	v4ldevice_close(vd);
-	
+
 	return 0;
 }
