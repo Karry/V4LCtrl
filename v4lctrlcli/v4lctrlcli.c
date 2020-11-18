@@ -312,7 +312,6 @@ void print_help(){
 	printf("    -g cid        get value of control with id <cid>\n");
 	printf("    -s cid        set control with id <cid> to value specified in parameter -v\n");
 	printf("    -v value      value for set\n");
-	
 }
 
 /* --------------------------------------------------------------------- */
@@ -370,9 +369,9 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (v4ldevice_open(vd, device, direct_access) < 0)
+	if (v4ldevice_open(vd, device, direct_access) < 0) {
 		exit(-1);
-	
+	}
 
 	if (-1 != doioctl(vd,VIDIOC_QUERYCAP,dummy,sizeof(dummy))) {
 		v4l2_device = 1;
