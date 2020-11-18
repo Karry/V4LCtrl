@@ -36,102 +36,10 @@ This program is based on xawtv code.
 
 
 #include "../v4lctrl/libv4lctrl.h"
+
 #include "v4lctrlcli.h"
-
 #include "struct-dump.h"
-//#include "struct-v4l.h"
 #include "struct-v4l2.h"
-
-
-
-/* --------------------------------------------------------------------- */
-/* v4l(1)                                                                */
-/*
-static int dump_v4l(struct v4ldevice *vd, int tab)
-{
-	struct video_capability  capability;
-	struct video_channel     channel;
-	struct video_tuner       tuner;
-	struct video_audio       audio;
-	struct video_picture     picture;
-	struct video_buffer      buffer;
-	struct video_window      window;
-	unsigned int i;
-
-	printf("general info\n");
-	memset(&capability,0,sizeof(capability));
-	if (-1 == doioctl(vd,VIDIOCGCAP,&capability, sizeof(capability)))
-		return -1;
-	printf("    VIDIOCGCAP\n");
-	print_struct(stdout,desc_video_capability,&capability,"",tab);
-	printf("\n");
-
-	printf("channels\n");
-	for (i = 0; i < capability.channels; i++) {
-		memset(&channel,0,sizeof(channel));
-		channel.channel = i;
-		if (-1 == doioctl(vd,VIDIOCGCHAN,&channel,sizeof(channel))) {
-			perror("ioctl VIDIOCGCHAN");
-			continue;
-		}
-		printf("    VIDIOCGCHAN(%d)\n",i);
-		print_struct(stdout,desc_video_channel,&channel,"",tab);
-	}
-	printf("\n");
-
-	printf("tuner\n");
-	memset(&tuner,0,sizeof(tuner));
-	if (-1 == doioctl(vd,VIDIOCGTUNER,&tuner,sizeof(tuner))) {
-		perror("ioctl VIDIOCGTUNER");
-	} else {
-		printf("    VIDIOCGTUNER\n");
-		print_struct(stdout,desc_video_tuner,&tuner,"",tab);
-	}
-	printf("\n");
-
-	printf("audio\n");
-	memset(&audio,0,sizeof(audio));
-	if (-1 == doioctl(vd,VIDIOCGAUDIO,&audio,sizeof(audio))) {
-		perror("ioctl VIDIOCGAUDIO");
-	} else {
-		printf("    VIDIOCGAUDIO\n");
-		print_struct(stdout,desc_video_audio,&audio,"",tab);
-	}
-	printf("\n");
-
-	printf("picture\n");
-	memset(&picture,0,sizeof(picture));
-	if (-1 == doioctl(vd,VIDIOCGPICT,&picture,sizeof(picture))) {
-		perror("ioctl VIDIOCGPICT");
-	} else {
-		printf("    VIDIOCGPICT\n");
-		print_struct(stdout,desc_video_picture,&picture,"",tab);
-	}
-	printf("\n");
-
-	printf("buffer\n");
-	memset(&buffer,0,sizeof(buffer));
-	if (-1 == doioctl(vd,VIDIOCGFBUF,&buffer,sizeof(buffer))) {
-		perror("ioctl VIDIOCGFBUF");
-	} else {
-		printf("    VIDIOCGFBUF\n");
-		print_struct(stdout,desc_video_buffer,&buffer,"",tab);
-	}
-	printf("\n");
-
-	printf("window\n");
-	memset(&window,0,sizeof(window));
-	if (-1 == doioctl(vd,VIDIOCGWIN,&window,sizeof(window))) {
-		perror("ioctl VIDIOCGWIN");
-	} else {
-		printf("    VIDIOCGWIN\n");
-		print_struct(stdout,desc_video_window,&window,"",tab);
-	}
-	printf("\n");
-
-	return 0;
-}
- * */
 
 /* --------------------------------------------------------------------- */
 /* v4l2                                                                  */
