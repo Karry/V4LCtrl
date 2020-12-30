@@ -22,7 +22,6 @@ This program is based on xawtv code.
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
-#include <fcntl.h>
 #include <inttypes.h>
 #include <ctype.h>
 
@@ -275,7 +274,6 @@ int main(int argc, char *argv[])
 	struct v4ldevice *vd = malloc(sizeof(struct v4ldevice));
 	int direct_access = 0;
 	unsigned char v4l2_device = 0;
-	unsigned char v4l_device = 0;
 	unsigned char dump = 0;
 	int c;
 	unsigned long int g_cid = 0;
@@ -327,21 +325,11 @@ int main(int argc, char *argv[])
 		v4l2_device = 1;
 	}
 
-	if (-1 != doioctl(vd,VIDIOCGCAP,dummy,sizeof(dummy))) {
-		v4l_device = 1;
-	}
-
-	if (!(v4l_device | v4l2_device)) {
+	if (!v4l2_device) {
 		fprintf(stderr,"%s: not an video4linux device\n",device);
 		exit(1);
 	}
 
-
-	if (dump && v4l_device){
-		printf("\n### video4linux device info [%s] ###\n",device);
-		printf("\n### v4l1 API is not supported anymore!\n");
-		//dump_v4l(vd,tab);
-	}
 	if (dump && v4l2_device){
 		printf("\n### v4l2 device info [%s] ###\n",device);
 		dump_v4l2(vd,tab);

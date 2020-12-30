@@ -3,7 +3,6 @@
 #define __V4LCTL_H
 
 #include "linux/videodev2.h"
-#include "libv4l1-videodev.h"
 #include "libv4l2.h"
 
 #define SHM_SEMAPTHORES_ID      0

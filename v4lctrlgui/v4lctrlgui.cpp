@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include "linux/videodev2.h"
-#include "libv4l1-videodev.h"
 #include "libv4l2.h"
 
 #include "v4lctrlgui.h"
@@ -159,10 +158,6 @@ int v4lCtrlGUI::openDevice(){
 	// test device if it is v4l2 device
 	if (-1 != doioctl(vd,VIDIOC_QUERYCAP,dummy,sizeof(dummy))) {
 		v4l2_device = true;
-	}
-
-	if (-1 != doioctl(vd,VIDIOCGCAP,dummy,sizeof(dummy))) {
-		qWarning() << "Only v4l2 devices are supported!";
 	}
 
 	if (!v4l2_device) {
