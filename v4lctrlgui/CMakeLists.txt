@@ -1,4 +1,5 @@
 
+cmake_policy(SET CMP0071 NEW) # process GENERATED source files in AUTOMOC and AUTOUIC just like regular source files.
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
