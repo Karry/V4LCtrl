@@ -61,12 +61,12 @@ char *desc_v4l2_colorspace[] = {
 
 char *bits_capabilities[32] = {
 	"VIDEO_CAPTURE", "VIDEO_OUTPUT", "VIDEO_OVERLAY", "",
-	"VBI_CAPTURE", "VBI_OUTPUT",   "?","?",
-	"RDS_CAPTURE", "?", "?", "?",
-	"?", "?", "?", "?",
-	"TUNER", "AUDIO", "?", "?",
-	"?", "?", "?", "?",
-	"READWRITE", "ASYNCIO", "STREAMING", "?",
+	"VBI_CAPTURE", "VBI_OUTPUT", "SLICED_VBI_CAPTURE","SLICED_VBI_OUTPUT",
+	"RDS_CAPTURE", "VIDEO_OUTPUT_OVERLAY", "HW_FREQ_SEEK", "RDS_OUTPUT",
+	"VIDEO_CAPTURE_MPLANE", "VIDEO_OUTPUT_MPLANE", "VIDEO_M2M_MPLANE", "VIDEO_M2M",
+	"TUNER", "AUDIO", "RADIO", "MODULATOR",
+	"SDR_CAPTURE", "EXT_PIX_FORMAT", "SDR_OUTPUT", "META_CAPTURE",
+	"READWRITE", "ASYNCIO", "STREAMING", "META_OUTPUT", "TOUCH", "IO_MC", "DEVICE_CAPS"
 };
 
 char *bits_standard[64] = {
